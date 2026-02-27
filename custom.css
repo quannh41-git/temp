@@ -1,0 +1,414 @@
+/* @theme custom */
+
+/*!
+ * Marp / Marpit Uncover theme (Custom Red)
+ *
+ * @theme custom
+ * @author Yuki Hattori (Modified)
+ *
+ * @auto-scaling true
+ * @size 16:9 1280px 720px
+ * @size 4:3 960px 720px
+ */
+
+section {
+  --color-background: #ffffff;
+  --color-background-code: #f5f5f5;
+  --color-background-paginate: rgba(0, 0, 0, 0.1);
+  --color-foreground: #000000;
+  --color-highlight: #f54914;
+  --color-highlight-hover: #ff6633;
+  --color-highlight-heading: #f54914;
+  --color-header: rgba(0, 0, 0, 0.5);
+  --color-header-shadow: rgba(255, 255, 255, 0.8);
+
+  color-scheme: light;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  display: block;
+  place-content: safe center center;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 40px;
+  height: 720px;
+  letter-spacing: 3px;
+  line-height: 1.4;
+  padding: 70px 70px 70px 70px;
+  position: relative;
+  text-align: left;
+  width: 1280px;
+  overflow-wrap: break-word;
+  z-index: 0;
+
+  /* Definitions for classic behavior: Users can adopt flex centering by tweaking style `section { display: flex }` */
+  flex-flow: column nowrap;
+  align-items: stretch;
+
+  &::after {
+    align-items: flex-end;
+    background: linear-gradient(
+      -45deg,
+      var(--color-background-paginate) 50%,
+      transparent 50%
+    );
+    background-size: cover;
+    color: var(--color-foreground);
+    display: flex;
+    font-size: 0.6em;
+    height: 80px;
+    justify-content: flex-end;
+    padding: 30px;
+    text-align: right;
+    text-shadow: 0 0 5px var(--color-background);
+    width: 80px;
+  }
+
+  &:where(.invert) {
+    color-scheme: dark;
+  }
+
+  /* highlight.js (dark: codepen-embed) */
+  :where(.hljs-addition),
+  :where(.hljs-string) {
+    color: #8f9c6c;
+  }
+
+  :where(.hljs-attribute) {
+    color: #9b869b;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  :where(.hljs-built_in),
+  :where(.hljs-tag) {
+    color: #ab875d;
+  }
+
+  :where(.hljs-bullet),
+  :where(.hljs-link),
+  :where(.hljs-literal),
+  :where(.hljs-number),
+  :where(.hljs-regexp) {
+    color: #ab875d;
+  }
+
+  :where(.hljs-comment),
+  :where(.hljs-quote) {
+    color: #777;
+  }
+
+  :where(.hljs-deletion),
+  :where(.hljs-variable) {
+    color: #ab875d;
+  }
+
+  :where(.hljs-doctag) {
+    color: unset;
+  }
+
+  :where(.hljs-keyword),
+  :where(.hljs-selector-tag) {
+    color: #8f9c6c;
+  }
+
+  :where(.hljs-meta),
+  :where(.hljs-symbol),
+  :where(.hljs-template-variable) {
+    color: #ab875d;
+  }
+
+  :where(.hljs-name),
+  :where(.hljs-section),
+  :where(.hljs-selector-class),
+  :where(.hljs-selector-id),
+  :where(.hljs-title),
+  :where(.hljs-type) {
+    color: #9b869b;
+  }
+
+  :where(.hljs-params) {
+    color: #ab875d;
+  }
+
+  :where(.hljs-template-tag) {
+    color: currentcolor;
+  }
+
+  :where(.hljs-strong) {
+    color: currentcolor;
+  }
+
+  :where(.hljs-emphasis) {
+    font-style: italic;
+  }
+
+  &:where(.invert) :where(.hljs-strong) {
+    font-weight: 700; /* This style demands to define "invert" class */
+  }
+
+  /* End of highlight.js */
+
+  > *:first-child,
+  &[data-header] > :nth-child(2) {
+    margin-top: 0;
+  }
+
+  > *:last-child,
+  &[data-footer] > :nth-last-child(2) {
+    margin-bottom: 0;
+  }
+
+  p,
+  blockquote {
+    margin: 0 0 15px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 15px 0 30px;
+
+    strong {
+      color: var(--color-highlight-heading);
+      font-weight: inherit;
+    }
+
+    &::part(auto-scaling) {
+      max-height: 660px; /* Slide height - padding * 2 */
+    }
+  }
+
+  h1 {
+    font-size: 3em;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.4em;
+    text-align: left;
+    margin-top: -270px !important;
+  }
+
+  h3 {
+    font-size: 1.2em;
+    letter-spacing: 2px;
+    text-align: left;
+  }
+
+  h4 {
+    font-size: 1.2em;
+    letter-spacing: 2px;
+    text-align: left;
+  }
+
+  h5 {
+    font-size: 1em;
+    letter-spacing: 1px;
+    text-align: left;
+  }
+
+  h6 {
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    text-align: left;
+  }
+
+  header,
+  footer {
+    color: var(--color-header);
+    font-size: 0.45em;
+    left: 70px;
+    letter-spacing: 1px;
+    position: absolute;
+    right: 70px;
+    text-shadow: 0 1px 0 var(--color-header-shadow);
+    z-index: 1;
+  }
+
+  header {
+    top: 30px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23f54914"/><text x="50" y="70" font-size="60" text-anchor="middle" fill="white" font-weight="bold">M</text></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-right: 15px;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 8px;
+      background: #f54914;
+    }
+  }
+
+  footer {
+    bottom: 30px;
+  }
+
+  a {
+    color: var(--color-highlight);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-highlight-hover);
+      text-decoration: underline;
+    }
+  }
+
+  ul,
+  ol {
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  > ul,
+  > ol {
+    margin-bottom: 15px;
+  }
+
+  code {
+    font-family:
+      SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    letter-spacing: 0;
+  }
+
+  & > code,
+  *:not(pre) > code {
+    background: var(--color-background-code);
+    color: var(--color-foreground);
+    margin: -0.2em 0.2em 0.2em;
+    padding: 0.2em;
+  }
+
+  pre {
+    --preserve-aspect-ratio: xMidYMid meet;
+
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
+    font-size: 70%;
+    line-height: 1.15;
+    margin: 15px 0 30px;
+    text-align: left;
+
+    &::part(auto-scaling) {
+      max-height: 570px;
+    }
+  }
+
+  pre > code {
+    background: var(--color-background-code);
+    box-sizing: content-box;
+    color: var(--color-foreground);
+    display: block;
+    margin: 0 auto;
+    min-width: 456px; /* (Slide width - padding * 2) * 40% */
+    padding: 0.4em 0.6em;
+  }
+
+  &[data-size='4:3'] pre > code {
+    min-width: 328px;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 0 auto 15px;
+
+    > thead,
+    > tbody {
+      > tr {
+        > td,
+        > th {
+          padding: 0.15em 0.5em;
+        }
+      }
+    }
+
+    > thead > tr {
+      > td,
+      > th {
+        border-bottom: 3px solid currentcolor;
+      }
+    }
+
+    > tbody > tr:not(:last-child) {
+      > td,
+      > th {
+        border-bottom: 1px solid currentcolor;
+      }
+    }
+  }
+
+  blockquote {
+    font-size: 90%;
+    line-height: 1.3;
+    padding: 0 2em;
+    position: relative;
+    z-index: 0;
+
+    &::before,
+    &::after {
+      content: url('./assets/uncover-quote.svg');
+      height: auto;
+      pointer-events: none;
+      position: absolute;
+      width: 1em;
+      z-index: -1;
+    }
+
+    &::before {
+      left: 0;
+      top: 0;
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+      transform: rotate(180deg);
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  mark {
+    color: var(--color-highlight);
+    background: transparent;
+  }
+
+  /* Two-column layout support */
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .columns > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .columns img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 40px;
+  }
+}
