@@ -1,17 +1,18 @@
 ---
 name: transcript-to-script
 description: >
-  Chuyển đổi transcript YouTube (hoặc bất kỳ transcript thô nào) thành 2 file:
-  (1) Script bài giảng có cấu trúc sư phạm rõ ràng, và
-  (2) TTS Script tối ưu cho các công cụ text-to-speech như ElevenLabs, Murf, FPT AI Voice.
+  Chuyển đổi transcript YouTube (hoặc bất kỳ transcript thô nào) thành 3 output:
+  (1) Script bài giảng có cấu trúc sư phạm rõ ràng,
+  (2) TTS Script tối ưu cho các công cụ text-to-speech như ElevenLabs, Murf, FPT AI Voice, và
+  (3) Các file scene .txt riêng lẻ với metadata YAML cho từng đoạn audio.
   Kích hoạt skill này bất cứ khi nào người dùng đề cập đến: transcript, chuyển đổi transcript,
   tái tạo bài giảng, viết script từ video, làm nội dung từ transcript, tạo TTS script,
   hoặc muốn chuyển nội dung nói thành văn bản có cấu trúc để quay lại video.
 ---
 
-# Transcript → Script + TTS Script
+# Transcript → Script + TTS Script + Scene Files
 
-Skill này thực hiện pipeline 3 bước để biến transcript thô thành 2 file output chất lượng cao.
+Skill này thực hiện pipeline 4 bước để biến transcript thô thành các output chất lượng cao.
 
 ---
 
@@ -25,6 +26,8 @@ Skill này thực hiện pipeline 3 bước để biến transcript thô thành 
 [script.md]
       ↓  Bước 3: Chuyển đổi sang TTS Script
 [tts_script.md]
+      ↓  Bước 4: Tách thành Scene Files
+[scene_01.txt, scene_02.txt, ...]
 ```
 
 ---
@@ -184,9 +187,79 @@ Trước khi bạn chia sẻ.
 
 ---
 
+## Bước 4 — Tách TTS Script thành Scene Files
+
+### Mục đích
+
+Mỗi phần trong `tts_script.md` được tách ra thành một file `.txt` riêng lẻ với YAML frontmatter chứa metadata điều khiển giọng đọc. Các file này dùng để nạp trực tiếp vào pipeline tổng hợp giọng nói tự động.
+
+### Quy tắc chia scene
+
+- Mỗi **phần lớn** trong TTS Script (tương ứng với một phần trong script.md) thành **một scene**
+- Nếu một phần quá dài (ước tính > 90 giây đọc), chia thêm thành các sub-scene
+- Đánh số scene theo thứ tự hai chữ số: `01`, `02`, `03`, ...
+- Tên file: `scene_01.txt`, `scene_02.txt`, ...
+
+### Cấu trúc file scene
+
+Mỗi file `.txt` gồm hai phần: YAML frontmatter và nội dung TTS.
+
+```
+---
+scene: 01
+title: [Tiêu đề ngắn của phần, lấy từ script.md]
+voice: charon
+pace: normal
+instruction: [Hướng dẫn phong cách đọc bằng tiếng Anh. Always end with: Speak in Vietnamese.]
+---
+[Nội dung TTS của scene — giữ nguyên dấu câu, xuống dòng, và chữ HOA từ tts_script.md]
+```
+
+### Bảng chọn `voice` và `pace`
+
+Tất cả scene dùng:
+- `voice: charon`
+- `pace: normal`
+
+### Bảng chọn `instruction`
+
+Tất cả scene dùng cùng một instruction nhất quán phù hợp với nội dung giáo dục:
+
+```
+You are an educational narrator. Speak in a clear, engaging, and professional tone suitable for online learning. Vary your energy slightly to match the content — calm and deliberate for definitions, lively for examples, encouraging for conclusions. Speak in Vietnamese.
+```
+
+### Ví dụ scene file
+
+**Tên file:** `scene_01.txt`
+```
+---
+scene: 01
+title: Giới thiệu bài học
+voice: charon
+pace: normal
+instruction: You are an educational narrator. Speak in a clear, engaging, and professional tone suitable for online learning. Vary your energy slightly to match the content — calm and deliberate for definitions, lively for examples, encouraging for conclusions. Speak in Vietnamese.
+---
+Chào mừng các bạn đến với bài học hôm nay.
+
+Trong bài này... chúng ta sẽ cùng nhau khám phá ba điều quan trọng.
+
+Hãy chuẩn bị bút và giấy.
+
+Vì chúng ta sẽ có RẤT NHIỀU ví dụ thực hành thú vị.
+```
+
+**Lưu ý quan trọng về nội dung scene:**
+- Giữ nguyên tất cả dấu `...` để điều khiển ngắt nghỉ
+- Giữ nguyên cách xuống dòng từ tts_script.md
+- Giữ nguyên các từ VIẾT HOA để nhấn mạnh
+- Không thêm bất kỳ ký hiệu markdown nào vào phần nội dung
+
+---
+
 ## Output cuối cùng
 
-Sau khi hoàn tất, xuất ra 2 file:
+Sau khi hoàn tất, xuất ra:
 
 ### File 1: `script.md`
 - Có đầy đủ metadata (thời lượng, đối tượng, mục tiêu)
@@ -196,7 +269,12 @@ Sau khi hoàn tất, xuất ra 2 file:
 ### File 2: `tts_script.md`
 - Sạch hoàn toàn — chỉ có văn bản thuần
 - Nhịp đọc được điều khiển bằng dấu câu và xuống dòng
-- Dùng để: paste thẳng vào tool TTS
+- Dùng để: tham chiếu tổng thể, kiểm tra trước khi tách scene
+
+### File 3+: `scene_01.txt`, `scene_02.txt`, ...
+- Mỗi file là một scene độc lập với YAML frontmatter
+- Nội dung TTS giữ nguyên nhịp đọc (dấu câu, xuống dòng, HOA)
+- Dùng để: nạp trực tiếp vào pipeline TTS tự động
 
 ---
 
